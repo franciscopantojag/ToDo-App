@@ -1,0 +1,34 @@
+{% extends "layout.html.jinja2" %} 
+{% block title %} 
+Inicio 
+{% endblock%} 
+{% block main%}
+<h2>Hello <span class='blue'>{{user.username}}</span>!</h2>
+<h3 class="mb-3">Here is your toDo list</h3>
+<table id="myTodos" class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Done</th>
+      <th scope="col">toDo</th>
+      <th scope="col">Dead Line</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for toDo in toDos%}
+      <tr record-id="{{toDo.id}}">
+        <td name="toDo.done" record-id="{{toDo.id}}">
+          <input type="checkbox" {% if toDo.done %} checked{% endif %} />
+        </td>
+        <td {% if toDo.done %}class="line-through"{% endif %} name="toDo.toDo" record-id="{{toDo.id}}">{{toDo.toDo}}</td>
+        <td class="align-middle">{% if toDo.deadline %}{{toDo.deadline}}{% else %}No deadline{% endif %}</td>
+        <td class="align-middle">
+          <form action="/toDos/{{toDo.id}}?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-link p-0 m-0 text-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
