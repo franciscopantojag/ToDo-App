@@ -170,13 +170,15 @@ def toDo_done(id):
         return jsonify(response), 400
     if not isinstance(checked, bool):
         return jsonify(response), 400
-    toDos = db.execute('SELECT * FROM toDos WHERE id = ?', id)
+    toDos = db.execute(
+        'SELECT * FROM toDos WHERE id = ? AND user_id = ?', id, session.get('user_id'))
     if not toDos:
         return jsonify(response), 404
     if checked == True:
         checked = 1
     else:
         checked = 0
-    db.execute('UPDATE toDos SET done = ? WHERE id = ?', checked, id)
+    db.execute('UPDATE toDos SET done = ? WHERE id = ? AND user_id = ?',
+               checked, id, session.get('user_id'))
     response['done'] = True
     return jsonify(response)
